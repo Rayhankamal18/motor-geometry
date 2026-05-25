@@ -1,0 +1,15 @@
+# Konfigurasi Render (opsional — plan gratis Render sering tidak tersedia).
+# Deploy gratis: lihat DEPLOY.md (PythonAnywhere / Koyeb / Fly.io).
+
+services:
+  - type: web
+    name: motor-geometry
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 run:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: SECRET_KEY
+        generateValue: true

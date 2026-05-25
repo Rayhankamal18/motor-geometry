@@ -1,0 +1,24 @@
+<nav class="motor-nav" aria-label="Tipe motor">
+  <div class="motor-nav-tabs" role="tablist">
+    {% if active_type == 1 %}
+    <span class="motor-nav-tab is-active" role="tab" aria-selected="true">Tipe 1</span>
+    {% else %}
+    <a href="{{ url_for('index') }}" class="motor-nav-tab" role="tab">Tipe 1</a>
+    {% endif %}
+    {% if active_type == 2 %}
+    <span class="motor-nav-tab is-active" role="tab" aria-selected="true">Tipe 2</span>
+    {% else %}
+    <a href="{{ url_for('index_type2') }}" class="motor-nav-tab" role="tab">Tipe 2</a>
+    {% endif %}
+    {% if active_type == 3 %}
+    <span class="motor-nav-tab is-active" role="tab" aria-selected="true">Tipe 3</span>
+    {% else %}
+    <a href="{{ url_for('index_type3') }}" class="motor-nav-tab" role="tab">Tipe 3</a>
+    {% endif %}
+    {% if active_type == 4 %}
+    <span class="motor-nav-tab is-active" role="tab" aria-selected="true">Tipe 4</span>
+    {% else %}
+    <a href="{{ url_for('index_type4') }}" class="motor-nav-tab" role="tab">Tipe 4</a>
+    {% endif %}
+  </div>
+</nav>

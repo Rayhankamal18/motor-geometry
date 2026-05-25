@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motor Geometry Type-1</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
+</head>
+<body>
+  <div class="app">
+    {% with active_type=1 %}{% include '_shared_app_header.html' %}{% endwith %}
+
+    {% with motor_type=1 %}{% include '_shared_type_toolbar.html' %}{% endwith %}
+
+    <nav class="tabs" role="tablist">
+      <button type="button" class="tab active" data-tab="calc" role="tab" aria-selected="true">Kalkulator</button>
+      <button type="button" class="tab" data-tab="opt" role="tab" aria-selected="false">Optimizer</button>
+    </nav>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Input Geometri</h2>
+        <form id="geometry-form" class="form-grid" autocomplete="off">
+          <label>
+            <span>Panjang bit (ft)</span>
+            <input type="number" step="any" name="L_bit" value="0" required>
+          </label>
+          <label>
+            <span>Panjang Stabilizer 1 (S2) dan Bent Housing (BH) (ft)</span>
+            <input type="number" step="any" name="L_S1BH" value="0" required>
+          </label>
+          <label>
+            <span>Panjang stabilizer 2 (S2) (ft)</span>
+            <input type="number" step="any" name="L_S2" value="0" required>
+          </label>
+          <label>
+            <span>Diameter lubang (in)</span>
+            <input type="number" step="any" name="D_hole" value="0" required>
+          </label>
+          <label>
+            <span>Diameter stabilizer 1 (in)</span>
+            <input type="number" step="any" name="D_stab1" value="0" required>
+          </label>
+          <label>
+            <span>Diameter stabilizer 2 (in)</span>
+            <input type="number" step="any" name="D_stab2" value="0" required>
+          </label>
+          <label class="full">
+            <span>Sudut bent housing (BH) (deg)</span>
+            <input type="number" step="any" name="X_bent_housing_deg" value="0" required>
+          </label>
+        </form>
+      </section>
+
+      <section class="panel tab-panel active" id="panel-calc">
+        <h2>Mode Kalkulator</h2>
+        <form id="calc-form" class="form-grid">
+          <label>
+            <span>Panjang DC section A (DC_A) (ft)</span>
+            <input type="number" step="any" name="DC_A" value="0" min="0" required>
+          </label>
+          <label>
+            <span>Panjang DC section B (DC_B) (ft)</span>
+            <input type="number" step="any" name="DC_B" value="0" min="0" required>
+          </label>
+          <div class="actions full">
+            <button type="submit" class="btn primary">Hitung BUR</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel tab-panel" id="panel-opt" hidden>
+        <h2>Mode Optimizer</h2>
+        <form id="opt-form" class="form-grid">
+          <label class="full">
+            <span>Panjang DC tersedia (ft), pisahkan koma</span>
+            <input type="text" name="dp_list_text" value="0" required>
+          </label>
+          <label>
+            <span>Target BUR (deg/100 ft)</span>
+            <input type="number" step="any" name="bur_target" value="0" required>
+          </label>
+          <label>
+            <span>Toleransi ε (deg/100 ft)</span>
+            <input type="number" step="any" name="eps" value="0" min="0" required>
+          </label>
+          <label>
+            <span>Maks. evaluasi kombinasi</span>
+            <input type="number" step="1" name="max_iter" value="0" min="0" required>
+          </label>
+          <label>
+            <span>Urutkan</span>
+            <select name="sort_mode">
+              <option value="1">Prioritas error BUR saja</option>
+              <option value="2">Prioritas total DC terpendek saja</option>
+              <option value="3" selected>Rekomendasi seimbang (error + total DC)</option>
+            </select>
+          </label>
+          <label class="checkbox full">
+            <input type="checkbox" name="include_history" id="include_history">
+            <span>Sertakan history iterasi</span>
+          </label>
+          <div class="actions full">
+            <button type="submit" class="btn primary">Optimasi DC</button>
+          </div>
+        </form>
+      </section>
+
+      {% with motor_type=1 %}{% include '_shared_formula_panel.html' %}{% endwith %}
+
+      <section class="panel results-panel">
+        <div class="results-header">
+          <div class="results-header-left">
+            <button type="button" class="btn ghost back-header" id="header-back" hidden>← Kembali</button>
+            <h2>Hasil</h2>
+          </div>
+          <button type="button" class="btn ghost" id="clear-results" hidden>Bersihkan</button>
+        </div>
+        <div id="status" class="status info">Isi parameter lalu jalankan kalkulator atau optimizer.</div>
+        {% include '_shared_detail_bar.html' %}
+        <div id="calc-results" class="result-cards" hidden></div>
+        <div id="opt-results" hidden>
+          <p id="opt-message" class="opt-message"></p>
+          {% include '_shared_opt_export.html' %}
+          <p id="solutions-scroll-hint" class="scroll-hint" hidden></p>
+          <div class="table-scroll" id="solutions-scroll">
+            <table class="data-table" id="solutions-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>DC_A (ft)</th>
+                  <th>DC_B (ft)</th>
+                  <th>Total DC (ft)</th>
+                  <th>BUR (deg/100 ft)</th>
+                  <th>Selisih BUR</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <details id="history-block" class="history-block" hidden>
+            <summary>History iterasi</summary>
+            <p id="history-scroll-hint" class="scroll-hint" hidden></p>
+            <div class="table-scroll" id="history-scroll">
+              <table class="data-table compact" id="history-table">
+                <thead>
+                  <tr>
+                    <th>iter</th>
+                    <th>T</th>
+                    <th>pairs</th>
+                    <th>match</th>
+                    <th>best iter err</th>
+                    <th>best so far err</th>
+                    <th>heap</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/shared_api.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_progress-ui.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_form-persist.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_formula-panel.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_solution-diagram.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_opt-tooltips.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_opt-export.js') }}?v=4"></script>
+  <script src="{{ url_for('static', filename='js/app_type1.js') }}"></script>
+</body>
+</html>

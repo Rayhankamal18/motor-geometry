@@ -1,0 +1,29 @@
+﻿<section class="panel formula-panel" id="formula-panel" data-motor-type="{{ motor_type }}">
+  <details class="formula-panel-details">
+    <summary class="formula-panel-summary">Rumus &amp; diagram section</summary>
+    <p class="formula-panel-hint">Referensi formula dan skema motor — nilai section diperbarui otomatis dari input geometri &amp; DC kalkulator.</p>
+    <div class="formula-panel-body">
+      <div class="formula-diagram-wrap" id="formula-diagram-wrap">
+        <div class="formula-diagram-toolbar">
+          <button type="button" class="btn small ghost formula-orient-toggle" id="formula-diagram-orient-btn" title="Tampilkan skema vertikal (uphole atas, bit bawah)">Vertikal</button>
+        </div>
+        <div id="formula-diagram"></div>
+      </div>
+      <div class="formula-data-wrap">
+        <p class="formula-subtitle" id="formula-subtitle"></p>
+        <div class="formula-table-scroll">
+          <table class="formula-table formula-table-combined">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Rumus section</th>
+                <th scope="col">Nilai</th>
+              </tr>
+            </thead>
+            <tbody id="formula-rows"></tbody>
+          </table>
+        </div>
+      </div>
+     </div>
+  </details>
+</section>
