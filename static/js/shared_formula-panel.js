@@ -208,7 +208,7 @@
         bendDeg: g.X_bent_housing_deg,
       },
       { label: "DC_B", w: dc.DC_B, kind: "dc", d: d.hole * 0.5 },
-      { label: "½S2", w: 0.5 * g.L_S2, kind: "comp", d: d.stab2 },
+      { label: "S2", w: 0.5 * g.L_S2, kind: "comp", d: d.stab2 },
     ];
     return {
       S1: S1,

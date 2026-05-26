@@ -20,36 +20,7 @@
     <main class="layout">
       <section class="panel">
         <h2>Input Geometri</h2>
-        <form id="geometry-form" class="form-grid" autocomplete="off">
-          <label>
-            <span>Panjang bit (ft)</span>
-            <input type="number" step="any" name="L_bit" value="0" required>
-          </label>
-          <label>
-            <span>Panjang Stabilizer 1 (S2) dan Bent Housing (BH) (ft)</span>
-            <input type="number" step="any" name="L_S1BH" value="0" required>
-          </label>
-          <label>
-            <span>Panjang stabilizer 2 (S2) (ft)</span>
-            <input type="number" step="any" name="L_S2" value="0" required>
-          </label>
-          <label>
-            <span>Diameter lubang (in)</span>
-            <input type="number" step="any" name="D_hole" value="0" required>
-          </label>
-          <label>
-            <span>Diameter stabilizer 1 (in)</span>
-            <input type="number" step="any" name="D_stab1" value="0" required>
-          </label>
-          <label>
-            <span>Diameter stabilizer 2 (in)</span>
-            <input type="number" step="any" name="D_stab2" value="0" required>
-          </label>
-          <label class="full">
-            <span>Sudut bent housing (BH) (deg)</span>
-            <input type="number" step="any" name="X_bent_housing_deg" value="0" required>
-          </label>
-        </form>
+        {% include '_shared_geometry_type1.html' %}
       </section>
 
       <section class="panel tab-panel active" id="panel-calc">
@@ -118,7 +89,7 @@
         </div>
         <div id="status" class="status info">Isi parameter lalu jalankan kalkulator atau optimizer.</div>
         {% include '_shared_detail_bar.html' %}
-        <div id="calc-results" class="result-cards" hidden></div>
+        <div id="calc-results" class="calc-results" hidden></div>
         <div id="opt-results" hidden>
           <p id="opt-message" class="opt-message"></p>
           {% include '_shared_opt_export.html' %}
@@ -168,6 +139,7 @@
   <script src="{{ url_for('static', filename='js/shared_progress-ui.js') }}"></script>
   <script src="{{ url_for('static', filename='js/shared_form-persist.js') }}"></script>
   <script src="{{ url_for('static', filename='js/shared_input-select.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared_calc-results.js') }}"></script>
   <script src="{{ url_for('static', filename='js/shared_formula-panel.js') }}"></script>
   <script src="{{ url_for('static', filename='js/shared_solution-diagram.js') }}"></script>
   <script src="{{ url_for('static', filename='js/shared_opt-tooltips.js') }}"></script>

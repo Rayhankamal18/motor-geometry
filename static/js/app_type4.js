@@ -84,9 +84,26 @@
     if (window.OptExport) OptExport.clear();
   }
 
+  function enterCalculatorTab() {
+    hideSolutionsNav();
+    optResults.hidden = true;
+    if (solutionsScrollHint) solutionsScrollHint.hidden = true;
+    if (currentView === VIEW.optDetail || currentView === VIEW.optList) {
+      calcResults.hidden = true;
+    }
+  }
+
+  function enterOptimizerTab() {
+    if (optListContext) showOptList();
+  }
+
   function updateSolutionsNav() {
-    if (!optListContext?.solutions?.length) {
-      detailBar.hidden = true;
+    if (
+      currentView === VIEW.calc ||
+      currentView === VIEW.idle ||
+      !optListContext?.solutions?.length
+    ) {
+      hideSolutionsNav();
       if (headerBackBtn) headerBackBtn.hidden = true;
       return;
     }
@@ -174,6 +191,10 @@
   }
 
   function renderCalcCards(result) {
+    if (window.CalcResults) {
+      CalcResults.render(calcResults, result, CALC_FIELDS);
+      return;
+    }
     calcResults.innerHTML = CALC_FIELDS.map(
       ([key, label]) =>
         `<div class="card"><div class="label">${label}</div><div class="value">${formatNum(result[key])}</div></div>`
@@ -183,6 +204,8 @@
   function renderCalcResult(result) {
     currentView = VIEW.calc;
     hideSolutionsNav();
+    historyBlock.hidden = true;
+    if (historyScrollHint) historyScrollHint.hidden = true;
     renderCalcCards(result);
     calcResults.hidden = false;
     optResults.hidden = true;
@@ -332,6 +355,8 @@
       const isCalc = tab.dataset.tab === "calc";
       document.getElementById("panel-calc").hidden = !isCalc;
       document.getElementById("panel-opt").hidden = isCalc;
+      if (isCalc) enterCalculatorTab();
+      else enterOptimizerTab();
     });
   });
 
