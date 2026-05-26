@@ -36,19 +36,14 @@ source_code/
 │       └── solution_sort.py     # urutan & skor solusi
 ├── templates/
 │   ├── type1.html … type4.html
-│   ├── _shared_formula_panel.html
-│   └── _shared_type_toolbar.html
+│   └── _shared_*.html              # potongan UI bersama
 ├── static/
 │   ├── css/shared.css
-│   └── js/
-│       ├── shared_api.js
-│       ├── shared_progress-ui.js
-│       ├── shared_form-persist.js
-│       ├── shared_formula-panel.js
-│       ├── app_type1.js … app_type4.js
+│   └── js/                         # shared_*.js, app_typeN.js, vendor/
 ├── cli/
 ├── run.py
-└── motor_geometry_type1.py
+├── wsgi.py                         # deploy PythonAnywhere
+└── motor_geometry_type1.py           # entry CLI (opsional)
 ```
 
 ## Instalasi

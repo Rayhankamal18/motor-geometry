@@ -40,7 +40,6 @@ Setelah deploy, halaman tersedia:
 | `Procfile` | Start command (Koyeb / Railway / Heroku-style) |
 | `requirements.txt` | `flask`, `gunicorn` |
 | `Dockerfile` + `fly.toml` | Opsional — Fly.io |
-| `render.yaml` | Opsional — Render (jika punya plan berbayar) |
 
 ---
 

@@ -26,3 +26,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Lokal / sampah pengujian
+dummy.csv
+Tampilan/
